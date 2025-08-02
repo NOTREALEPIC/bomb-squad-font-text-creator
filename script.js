@@ -3,15 +3,14 @@ function generateImage() {
   const canvas = document.getElementById('canvas');
   const ctx = canvas.getContext('2d');
 
-  // Reset
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   canvas.width = 0;
   canvas.height = 0;
 
+  const images = [];
   let loaded = 0;
   let totalWidth = 0;
   let maxHeight = 0;
-  const images = [];
 
   for (let i = 0; i < text.length; i++) {
     const ch = text[i];
@@ -31,9 +30,8 @@ function generateImage() {
 
         let x = 0;
         for (let j = 0; j < images.length; j++) {
-          const im = images[j];
-          ctx.drawImage(im, x, 0);
-          x += im.width;
+          ctx.drawImage(images[j], x, 0);
+          x += images[j].width;
         }
 
         // Enable download
@@ -44,7 +42,7 @@ function generateImage() {
     };
 
     img.onerror = () => {
-      console.warn(`❌ Missing image for '${ch}'`);
+      console.error(`⚠️ Image not found for '${ch}'`);
       loaded++;
     };
   }
